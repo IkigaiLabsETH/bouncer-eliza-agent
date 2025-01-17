@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The Blockchain Bouncer Agent is an example AI agent built with the Eliza agent framework and thirdweb's Nebula AI interface. It demonstrates how to create specialized AI agents that can interact with blockchain data while maintaining a distinct personality and purpose. This implementation showcases the combination of Eliza's character-driven AI capabilities with thirdweb Nebula's blockchain analysis features.
+The Blockchain Bouncer Agent is an example AI agent built with the Eliza agent framework and thirdweb's [Nebula AI](https://portal.thirdweb.com/nebula) interface. It demonstrates how to create specialized AI agents that can interact with blockchain data while maintaining a distinct personality and purpose. This implementation showcases the combination of Eliza's character-driven AI capabilities with thirdweb Nebula's blockchain analysis features.
 
 ## What Blockchain Bouncer Does
 
