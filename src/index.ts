@@ -8,21 +8,23 @@ import {
 } from "@elizaos/core";
 import { bootstrapPlugin } from "@elizaos/plugin-bootstrap";
 import { createNodePlugin } from "@elizaos/plugin-node";
-import { solanaPlugin } from "@elizaos/plugin-solana";
 import fs from "fs";
 import net from "net";
 import path from "path";
 import { fileURLToPath } from "url";
 import { initializeDbCache } from "./cache/index.ts";
-import { character } from "./character.ts";
 import { startChat } from "./chat/index.ts";
 import { initializeClients } from "./clients/index.ts";
 import {
   getTokenForProvider,
-  loadCharacters,
   parseArguments,
 } from "./config/index.ts";
 import { initializeDatabase } from "./database/index.ts";
+import { thirdwebPlugin } from "./plugin-thirdweb/src/index.ts";
+import { ensDataProvider } from "./providers/ensDataProvider.ts";
+import { nftOwnershipProvider } from "./providers/nftOwnershipProvider.ts";
+import { ensDataEvaluator } from "./evaluators/ensDataEvaluator.ts";
+import { blockchainBouncerCharacter } from "./blockchainBouncerCharacter.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -53,14 +55,14 @@ export function createAgent(
     databaseAdapter: db,
     token,
     modelProvider: character.modelProvider,
-    evaluators: [],
+    evaluators: [ensDataEvaluator],
     character,
     plugins: [
       bootstrapPlugin,
       nodePlugin,
-      character.settings?.secrets?.WALLET_PUBLIC_KEY ? solanaPlugin : null,
+      thirdwebPlugin
     ].filter(Boolean),
-    providers: [],
+    providers: [ensDataProvider, nftOwnershipProvider],
     actions: [],
     services: [],
     managers: [],
@@ -131,14 +133,9 @@ const startAgents = async () => {
   let serverPort = parseInt(settings.SERVER_PORT || "3000");
   const args = parseArguments();
 
-  let charactersArg = args.characters || args.character;
-  let characters = [character];
+  // only loading the blockchain bouncer character for now
+  let characters = [blockchainBouncerCharacter];
 
-  console.log("charactersArg", charactersArg);
-  if (charactersArg) {
-    characters = await loadCharacters(charactersArg);
-  }
-  console.log("characters", characters);
   try {
     for (const character of characters) {
       await startAgent(character, directClient as DirectClient);
