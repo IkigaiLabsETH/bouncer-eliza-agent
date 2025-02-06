@@ -15,6 +15,27 @@ The agent's primary goals are to:
 
 Known for being tough but fair, Blockchain Bouncer maintains high security standards while treating everyone with respect. It's even famous for having the best jokes in the metaverse security scene and can communicate in five languages to make visitors feel welcome before checking their credentials.
 
+## Blockchain Bouncer Architecture
+
+![Blockchain Bouncer Architecture](docs/bouncer-eliza-agent-architecture.png)
+
+The Blockchain Bouncer agent operates through a series of interconnected components:
+
+1. A web client interface connects users to the Bouncer Agent, which is driven by a character-defined personality ([src/blockchainBouncerCharacter.ts](src/blockchainBouncerCharacter.ts)) which is initialized in the [src/index.ts](src/index.ts) file.
+
+2. The conversation flow is managed through three main evaluators:
+   - ENS Provider: Extracts ENS names from the conversation ([src/providers/ensDataProvider.ts](src/providers/ensDataProvider.ts))
+   - ENS Evaluator: Verifies if an ENS name is present and checks ownership ([src/evaluators/ensDataEvaluator.ts](src/evaluators/ensDataEvaluator.ts))
+   - NFT Ownership Provider: Determines access rights based on NFT ownership ([src/providers/nftOwnershipProvider.ts](src/providers/nftOwnershipProvider.ts))
+
+3. Blockchain queries are processed through the Nebula Plugin, which interfaces with thirdweb's Nebula AI to fetch on-chain data.
+
+The agent follows four primary goals:
+- Get the user's ENS name
+- Check if the ENS owns the required NFT
+- Inform users of their NFT ownership status
+- Answer general blockchain queries
+
 ## Changing Blockchain Bouncer to use your own VIP Club Pass NFT Collection
 
 1. Change the Nebula API query in the `src/evaluators/ensDataEvaluator.ts` file to use your own VIP Club Pass NFT Collection.
