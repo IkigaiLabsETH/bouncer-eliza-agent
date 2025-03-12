@@ -97,3 +97,55 @@ pnpm start
 ## Thirdweb Nebula Plugin
 
 **Important Note:** This agent currently uses a local version of the thirdweb plugin (located in the `@plugin-thirdweb` directory) as it implements features not yet available in the official published plugin. Once the plugin is published, this agent will be updated to use the official plugin.
+
+## NFT Floor Price Detection and Sweeping
+
+The agent includes NFT floor price detection and sweeping capabilities through the `floorDetector.ts` module. This functionality helps monitor NFT collections for potential bargains and enables automated purchasing of NFTs listed below market value.
+
+### Floor Detection Logic
+
+The floor detector implements two main functions:
+
+1. **Thin Floor Detection** (`detectThinFloors`):
+   - Monitors multiple NFT collections for listings significantly below floor price
+   - Takes a price threshold parameter to determine what constitutes a "thin" floor
+   - Uses Reservoir Protocol's API to fetch:
+     - Collection floor prices via `/collections/v5` endpoint
+     - Current listings via `/orders/asks/v4` endpoint
+   - Returns notifications for any listings found below the threshold
+
+2. **Floor Sweeping** (`sweepFloor`):
+   - Automatically purchases NFTs listed below a specified maximum price
+   - Workflow:
+     1. Finds the lowest-priced listing using Reservoir's order book
+     2. Executes the purchase using the `/execute/buy/v7` endpoint
+     3. Handles transaction signing and execution using ethers.js
+     4. Returns the transaction hash upon successful purchase
+
+### Example Usage
+
+```typescript
+// Monitor collections for thin floors
+const notifications = await detectThinFloors(
+  ['collection-id-1', 'collection-id-2'],  // Collection IDs to monitor
+  0.1,                                     // 10% below floor price threshold
+  'your-api-key',                          // Reservoir API key
+  'https://api.reservoir.tools'            // API base URL
+);
+
+// Sweep floor (buy lowest-priced NFT)
+const txHash = await sweepFloor(
+  'collection-id',                         // Collection to buy from
+  1.5,                                     // Maximum price in ETH
+  signer,                                  // Ethers.js signer
+  'your-api-key',                          // Reservoir API key
+  'https://api.reservoir.tools'            // API base URL
+);
+```
+
+### Requirements
+
+- Reservoir Protocol API key
+- Ethereum wallet with sufficient funds (for sweeping)
+- `axios` for API requests
+- `ethers` for transaction signing
