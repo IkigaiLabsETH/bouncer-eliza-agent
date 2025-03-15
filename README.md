@@ -1,23 +1,98 @@
-# Blockchain Bouncer Agent
+# 🛡️ Blockchain Bouncer Agent
 
-## Introduction
+```
+  ____  _            _        _           _         ____                                    
+ | __ )| | ___   ___| | _____| |__   __ _(_)_ __   | __ )  ___  _   _ _ __   ___ ___ _ __  
+ |  _ \| |/ _ \ / __| |/ / __| '_ \ / _` | | '_ \  |  _ \ / _ \| | | | '_ \ / __/ _ \ '__| 
+ | |_) | | (_) | (__|   < (__| | | | (_| | | | | | | |_) | (_) | |_| | | | | (_|  __/ |    
+ |____/|_|\___/ \___|_|\_\___|_| |_|\__,_|_|_| |_| |____/ \___/ \__,_|_| |_|\___\___|_|    
+                                                                                           
+```
 
-The Blockchain Bouncer Agent is an example AI agent built with the Eliza agent framework and thirdweb's [Nebula AI](https://portal.thirdweb.com/nebula) interface. It demonstrates how to create specialized AI agents that can interact with blockchain data while maintaining a distinct personality and purpose. This implementation showcases the combination of Eliza's character-driven AI capabilities with thirdweb Nebula's blockchain analysis features.
+## 🚀 Introduction
 
-## What Blockchain Bouncer Does
+Blockchain Bouncer is an elite AI agent built with the Eliza agent framework and thirdweb's [Nebula AI](https://portal.thirdweb.com/nebula) interface. It serves as a virtual security agent for exclusive digital spaces, verifying NFT ownership credentials with the personality of an elite but approachable bouncer.
 
-Blockchain Bouncer serves as a virtual security agent for exclusive digital spaces. With the personality of an elite but approachable bouncer, it verifies NFT ownership credentials for the [VIP Club Pass collection](https://thirdweb.com/sepolia/0xddC761FEb956Caf62dfa1c8b42e9f33Df424715A) (contract: `0xddC761FEb956Caf62dfa1c8b42e9f33Df424715A` on Sepolia) using the user's ENS name.
+This implementation showcases the combination of Eliza's character-driven AI capabilities with thirdweb Nebula's blockchain analysis features, demonstrating how to create specialized AI agents that can interact with blockchain data while maintaining a distinct personality and purpose.
+
+## 🧠 Character Personality
+
+Blockchain Bouncer embodies the spirit of an elite but approachable security agent:
+
+- **Tough but Fair**: Maintains high security standards while treating everyone with respect
+- **Witty and Engaging**: Famous for having the best jokes in the metaverse security scene
+- **Multilingual**: Can communicate in five languages to make visitors feel welcome
+- **Professional**: Takes security seriously while maintaining a friendly demeanor
+- **Detail-Oriented**: Carefully verifies credentials without missing anything
+
+## 🔍 User Flow
+
+```mermaid
+graph TD
+    A[User Connects] --> B[Bouncer Greets User]
+    B --> C[Casual Conversation]
+    C --> D[Request ENS Name]
+    D --> E{ENS Provided?}
+    E -->|Yes| F[Extract ENS]
+    E -->|No| C
+    F --> G[Verify NFT Ownership]
+    G --> H{Owns NFT?}
+    H -->|Yes| I[Grant Access]
+    H -->|No| J[Deny Access]
+    I --> K[Welcome to VIP Area]
+    J --> L[Explain Requirements]
+    L --> C
+```
+
+## 🏗️ Architecture
+
+```
+                  +-------------------+
+                  |                   |
+                  |  Web Client       |
+                  |                   |
+                  +--------+----------+
+                           |
+                           v
++--------------------------------------------------------+
+|                                                        |
+|                Blockchain Bouncer Agent                |
+|                                                        |
+|  +----------------+        +---------------------+     |
+|  |                |        |                     |     |
+|  | Character      |        | Conversation        |     |
+|  | Personality    +------->+ Flow                |     |
+|  |                |        |                     |     |
+|  +-------+--------+        +----------+----------+     |
+|          ^                            |                |
+|          |                            v                |
+|  +-------+--------+        +----------+----------+     |
+|  |                |        |                     |     |
+|  | ENS Data       |        | NFT Ownership       |     |
+|  | Provider       |        | Verification        |     |
+|  |                |        |                     |     |
+|  +----------------+        +---------------------+     |
+|                                                        |
++------+-------------------------------------------+-----+
+       |                                           |
+       v                                           v
++------+-------------+                    +--------+-------+
+|                    |                    |                |
+| Thirdweb Nebula    |                    | Blockchain     |
+| Plugin             |                    | Network        |
++--------------------+                    +----------------+
+```
+
+## 🎯 What Blockchain Bouncer Does
+
+Blockchain Bouncer verifies NFT ownership credentials for the [VIP Club Pass collection](https://thirdweb.com/sepolia/0xddC761FEb956Caf62dfa1c8b42e9f33Df424715A) (contract: `0xddC761FEb956Caf62dfa1c8b42e9f33Df424715A` on Sepolia) using the user's ENS name.
 
 The agent's primary goals are to:
 1. Obtain the user's ENS name
 2. Verify ownership of NFTs from the VIP Club Pass collection
 3. Grant or deny access based on NFT ownership verification
 
-Known for being tough but fair, Blockchain Bouncer maintains high security standards while treating everyone with respect. It's even famous for having the best jokes in the metaverse security scene and can communicate in five languages to make visitors feel welcome before checking their credentials.
-
-## Blockchain Bouncer Architecture
-
-![Blockchain Bouncer Architecture](docs/bouncer-eliza-agent-architecture.png)
+## 🔧 Technical Components
 
 The Blockchain Bouncer agent operates through a series of interconnected components:
 
@@ -30,15 +105,21 @@ The Blockchain Bouncer agent operates through a series of interconnected compone
 
 3. Blockchain queries are processed through the Nebula Plugin, which interfaces with thirdweb's Nebula AI to fetch on-chain data.
 
-The agent follows four primary goals:
-- Get the user's ENS name
-- Check if the ENS owns the required NFT
-- Inform users of their NFT ownership status
-- Answer general blockchain queries
+## 🛠️ Customization
 
-## Changing Blockchain Bouncer to use your own VIP Club Pass NFT Collection
+```
+   _____          _                  _          
+  / ____|        | |                (_)         
+ | |    _   _ ___| |_ ___  _ __ ___  _ ________ 
+ | |   | | | / __| __/ _ \| '_ ` _ \| |_  / _ \
+ | |___| |_| \__ \ || (_) | | | | | | |/ /  __/
+  \_____\__,_|___/\__\___/|_| |_| |_|_/___\___|
+                                               
+```
 
-1. Change the Nebula API query in the `src/evaluators/ensDataEvaluator.ts` file to use your own VIP Club Pass NFT Collection.
+### Changing VIP Club Pass NFT Collection
+
+1. Change the Nebula API query in the `src/evaluators/ensDataEvaluator.ts` file to use your own VIP Club Pass NFT Collection:
 
 ```typescript
 const result = await blockchainService.processChat(
@@ -56,7 +137,7 @@ const result = await blockchainService.processChat(
 );
 ```
 
-2. Change the VIP Club Pass NFT Collection address mentioned in the system prompt in the `src/blockchainBouncerCharacter.ts` file.
+2. Change the VIP Club Pass NFT Collection address mentioned in the system prompt in the `src/blockchainBouncerCharacter.ts` file:
 
 ```typescript
     system:
@@ -67,44 +148,22 @@ const result = await blockchainService.processChat(
         "3. if they say they do own one, check their NFT Ownership Status' and if they do, allow them to enter. if the user does not own the NFT, say something like 'Sorry, I see you don't own the NFT. You may not enter'",
 ```
 
-## Setup
+## 🔐 NFT Floor Price Detection & Sweeping Plugin
 
-1. Install dependencies using pnpm:
-```bash
-pnpm i
 ```
-
-2. Create your environment file:
-```bash
-cp .env.example .env
+   _   _  ______ _______    _____  _                _         
+  | \ | ||  ____|__   __|  |  __ \| |              (_)        
+  |  \| || |__     | |     | |__) | |_   _  __ _    _  _ __   
+  | . ` ||  __|    | |     |  ___/| | | | |/ _` |  | || '_ \  
+  | |\  || |       | |     | |    | | |_| | (_| |  | || | | | 
+  |_| \_||_|       |_|     |_|    |_|\__,_|\__, |  |_||_| |_| 
+                                            __/ |             
+                                           |___/              
 ```
-
-3. Configure your environment variables in `.env`:
-```
-THIRDWEB_SECRET_KEY="your-thirdweb-secret-key"
-OPENAI_API_KEY="your-openai-api-key"
-```
-
-Note: You'll need Node.js version 22 or higher to run the agent.
-
-## Running the Agent
-
-Start the agent with:
-```bash
-pnpm start
-```
-
-## Thirdweb Nebula Plugin
-
-**Important Note:** This agent currently uses a local version of the thirdweb plugin (located in the `@plugin-thirdweb` directory) as it implements features not yet available in the official published plugin. Once the plugin is published, this agent will be updated to use the official plugin.
-
-## NFT Floor Price Detection and Sweeping
 
 The agent includes enhanced NFT floor price detection and sweeping capabilities through the `floorDetector.ts` module. This functionality helps monitor NFT collections for potential bargains and enables automated purchasing of NFTs listed below market value.
 
-### Enhanced Features
-
-The NFT floor detection and sweeping functionality has been significantly improved with the following features:
+### ✨ Key Features
 
 1. **Detailed Collection Analytics**:
    - Comprehensive data about NFT collections including floor price, volume, market cap
@@ -130,7 +189,7 @@ The NFT floor detection and sweeping functionality has been significantly improv
    - Rarity-based filtering for targeted purchases
    - Automatic execution when opportunities meet criteria
 
-### Usage Examples
+### 🚀 Usage Examples
 
 #### Detect Thin Floors
 
@@ -151,6 +210,32 @@ const opportunities = await detectThinFloors(
 );
 
 console.log(`Found ${opportunities.length} opportunities`);
+```
+
+#### Sweep Floor (Buy NFTs)
+
+```typescript
+import { ethers } from 'ethers';
+import { sweepFloor } from './nft/floorDetector';
+
+// Set up provider and signer
+const provider = new ethers.providers.JsonRpcProvider('your-rpc-url');
+const wallet = new ethers.Wallet('your-private-key', provider);
+
+const txHashes = await sweepFloor(
+  '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d', // Collection ID
+  10, // Maximum price in ETH
+  wallet, // Ethers.js signer
+  'your-reservoir-api-key',
+  'https://api.reservoir.tools',
+  {
+    maxItems: 3, // Buy up to 3 NFTs
+    gasMultiplier: 1.2, // Add 20% to estimated gas
+    maxGasPrice: 30 // Max 30 gwei
+  }
+);
+
+console.log(`Successfully purchased ${txHashes.length} NFTs`);
 ```
 
 #### Auto-Sweep (Continuous Monitoring)
@@ -196,9 +281,142 @@ setTimeout(() => {
 
 For more detailed documentation, see [src/nft/README.md](src/nft/README.md).
 
-### Requirements
+## 🌊 B/ERA - The DeFi Trading Assistant (Coming Soon)
 
-- Reservoir Protocol API key (get one at [reservoir.tools](https://reservoir.tools/))
-- Ethereum wallet with sufficient funds (for sweeping)
-- Etherscan API key for gas optimization (optional)
-- Node.js version 22 or higher
+```
+  ____     ______  ____       _    
+ | __ )   / /  _ \| __ )     / \   
+ |  _ \  / /| |_) |  _ \    / _ \  
+ | |_) |/ / |  _ <| |_) |  / ___ \ 
+ |____//_/  |_| \_\____/  /_/   \_\
+                                   
+```
+
+### Summary of B/ERA Features
+
+B/ERA is an AI-powered DeFi trading assistant that will be integrated into this agent, designed to help you make informed decisions about when to buy (DCA IN) or sell (DCA OUT) tokens on Berachain and analyze NFT collections on Ethereum.
+
+#### Key Features (Coming Soon)
+
+- **Top Tokens Grid**: Discover high-volume tokens on Berachain
+  - View tokens sorted by 24-hour trading volume
+  - See key metrics like price, volume, market cap, and liquidity
+  - Access token social links and websites
+  - View token descriptions and trust scores
+  - One-click token selection for analysis
+  - Automatic filtering of stablecoins for more relevant analysis
+
+- **NFT Collection Analysis**: Advanced NFT analytics powered by Reservoir API
+  - Comprehensive market analysis with real-time floor price tracking
+  - Trading pattern analysis with whale activity monitoring
+  - Collection metrics with holder distribution analysis
+  - User portfolio analysis with holdings valuation
+  - Risk assessment with market manipulation indicators
+  - Interactive features with real-time data updates
+
+- **Real-time Price Data**: Integrated with multiple data sources
+  - GeckoTerminal API as primary data source
+  - DexScreener API as fallback
+  - Current price in USD with real-time updates
+
+- **Smart Swap Integration**: Leveraging OogaBooga's Swap API
+  - Best price routing across multiple DEXs
+  - Price impact calculation and gas estimation
+  - Slippage protection (0.5% default)
+
+## 🛠️ Setup
+
+```
+  _____      _               
+ / ____|    | |              
+| (___   ___| |_ _   _ _ __  
+ \___ \ / _ \ __| | | | '_ \ 
+ ____) |  __/ |_| |_| | |_) |
+|_____/ \___|\__|\__,_| .__/ 
+                      | |    
+                      |_|    
+```
+
+1. Install dependencies using pnpm:
+```bash
+pnpm i
+```
+
+2. Create your environment file:
+```bash
+cp .env.example .env
+```
+
+3. Configure your environment variables in `.env`:
+```
+THIRDWEB_SECRET_KEY="your-thirdweb-secret-key"
+OPENAI_API_KEY="your-openai-api-key"
+```
+
+Note: You'll need Node.js version 22 or higher to run the agent.
+
+## 🚀 Running the Agent
+
+Start the agent with:
+```bash
+pnpm start
+```
+
+## 🔌 Thirdweb Nebula Plugin
+
+**Important Note:** This agent currently uses a local version of the thirdweb plugin (located in the `@plugin-thirdweb` directory) as it implements features not yet available in the official published plugin. Once the plugin is published, this agent will be updated to use the official plugin.
+
+## 🔐 Security & Risk Management
+
+```
+  _____  _     _      __  __                                                   _   
+ |  __ \(_)   | |    |  \/  |                                                 | |  
+ | |__) |_ ___| | __ | \  / | __ _ _ __   __ _  __ _  ___ _ __ ___   ___ _ __ | |_ 
+ |  _  /| / __| |/ / | |\/| |/ _` | '_ \ / _` |/ _` |/ _ \ '_ ` _ \ / _ \ '_ \| __|
+ | | \ \| \__ \   <  | |  | | (_| | | | | (_| | (_| |  __/ | | | | |  __/ | | | |_ 
+ |_|  \_\_|___/_|\_\ |_|  |_|\__,_|_| |_|\__,_|\__, |\___|_| |_| |_|\___|_| |_|\__|
+                                                __/ |                              
+                                               |___/                               
+```
+
+When using the NFT floor detection and sweeping functionality:
+
+- **Private Key Security**: Keep your private key secure and never commit it to version control
+- **Testing Recommendations**: Always test with small amounts before deploying with significant funds
+- **Risk Management**: Set appropriate limits for maximum price per item and total spend
+- **Gas Price Monitoring**: Adjust settings during high network congestion
+- **Collection Risk Assessment**: Skip collections with suspicious activity patterns
+- **Budget Management**: Set maximum spend limits to control exposure
+
+## ⚠️ Disclaimer
+
+```
+  _____  _           _       _                       
+ |  __ \(_)         | |     (_)                      
+ | |  | |_ ___  __ _| | __ _ _ _ __ ___   ___ _ __   
+ | |  | | / __|/ _` | |/ _` | | '_ ` _ \ / _ \ '__|  
+ | |__| | \__ \ (_| | | (_| | | | | | | |  __/ |     
+ |_____/|_|___/\__,_|_|\__,_|_|_| |_| |_|\___|_|     
+                                                     
+```
+
+This tool is provided for educational purposes only. Trading NFTs and tokens involves significant risk, and you should never invest more than you can afford to lose. Always do your own research before making investment decisions.
+
+## 🙏 Acknowledgments
+
+- [Thirdweb Nebula](https://portal.thirdweb.com/nebula) for blockchain AI capabilities
+- [ElizaOS](https://elizaos.github.io/eliza/) for the agent framework
+- [Reservoir Protocol](https://reservoir.tools/) for their comprehensive NFT API
+- [Berachain](https://berachain.com/) for the DeFi ecosystem (coming soon)
+- [OogaBooga](https://oogabooga.io/) for the swap aggregation (coming soon)
+
+---
+
+```
+  ____  _            _        _           _         ____                                    
+ | __ )| | ___   ___| | _____| |__   __ _(_)_ __   | __ )  ___  _   _ _ __   ___ ___ _ __  
+ |  _ \| |/ _ \ / __| |/ / __| '_ \ / _` | | '_ \  |  _ \ / _ \| | | | '_ \ / __/ _ \ '__| 
+ | |_) | | (_) | (__|   < (__| | | | (_| | | | | | | |_) | (_) | |_| | | | | (_|  __/ |    
+ |____/|_|\___/ \___|_|\_\___|_| |_|\__,_|_|_| |_| |____/ \___/ \__,_|_| |_|\___\___|_|    
+                                                                                           
+```
