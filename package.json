@@ -32,6 +32,7 @@
     "amqplib": "0.10.5",
     "axios": "^1.8.3",
     "better-sqlite3": "^11.9.0",
+    "dotenv": "^16.4.7",
     "ethers": "^5.6.1",
     "fs": "0.0.1-security",
     "net": "1.0.2",

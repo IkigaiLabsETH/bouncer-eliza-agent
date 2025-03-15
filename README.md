@@ -100,52 +100,105 @@ pnpm start
 
 ## NFT Floor Price Detection and Sweeping
 
-The agent includes NFT floor price detection and sweeping capabilities through the `floorDetector.ts` module. This functionality helps monitor NFT collections for potential bargains and enables automated purchasing of NFTs listed below market value.
+The agent includes enhanced NFT floor price detection and sweeping capabilities through the `floorDetector.ts` module. This functionality helps monitor NFT collections for potential bargains and enables automated purchasing of NFTs listed below market value.
 
-### Floor Detection Logic
+### Enhanced Features
 
-The floor detector implements two main functions:
+The NFT floor detection and sweeping functionality has been significantly improved with the following features:
 
-1. **Thin Floor Detection** (`detectThinFloors`):
-   - Monitors multiple NFT collections for listings significantly below floor price
-   - Takes a price threshold parameter to determine what constitutes a "thin" floor
-   - Uses Reservoir Protocol's API to fetch:
-     - Collection floor prices via `/collections/v5` endpoint
-     - Current listings via `/orders/asks/v4` endpoint
-   - Returns notifications for any listings found below the threshold
+1. **Detailed Collection Analytics**:
+   - Comprehensive data about NFT collections including floor price, volume, market cap
+   - Liquidity score calculation to assess trading activity
+   - Price volatility measurement to identify stable collections
+   - Whale concentration analysis to detect potential market manipulation
 
-2. **Floor Sweeping** (`sweepFloor`):
-   - Automatically purchases NFTs listed below a specified maximum price
-   - Workflow:
-     1. Finds the lowest-priced listing using Reservoir's order book
-     2. Executes the purchase using the `/execute/buy/v7` endpoint
-     3. Handles transaction signing and execution using ethers.js
-     4. Returns the transaction hash upon successful purchase
+2. **Advanced Thin Floor Detection**:
+   - Rate-limited API requests to avoid throttling
+   - Rarity analysis to find rare NFTs at discount prices
+   - Customizable discount thresholds and result limits
+   - Risk assessment to skip collections with suspicious activity
 
-### Example Usage
+3. **Optimized Floor Sweeping**:
+   - Gas price optimization using Etherscan API
+   - Support for batch purchasing multiple NFTs
+   - Profit and ROI estimation before purchase
+   - Transaction monitoring and detailed reporting
+
+4. **Automated Monitoring**:
+   - Continuous collection monitoring with configurable intervals
+   - Budget management with maximum spend limits
+   - Rarity-based filtering for targeted purchases
+   - Automatic execution when opportunities meet criteria
+
+### Usage Examples
+
+#### Detect Thin Floors
 
 ```typescript
-// Monitor collections for thin floors
-const notifications = await detectThinFloors(
-  ['collection-id-1', 'collection-id-2'],  // Collection IDs to monitor
-  0.1,                                     // 10% below floor price threshold
-  'your-api-key',                          // Reservoir API key
-  'https://api.reservoir.tools'            // API base URL
+import { detectThinFloors } from './nft/floorDetector';
+
+const opportunities = await detectThinFloors(
+  ['0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d'], // BAYC collection
+  0.1, // 10% below floor price threshold
+  'your-reservoir-api-key',
+  'https://api.reservoir.tools',
+  {
+    includeRarity: true,
+    maxRequestsPerSecond: 3,
+    minDiscount: 8, // At least 8% discount
+    maxResults: 5
+  }
 );
 
-// Sweep floor (buy lowest-priced NFT)
-const txHash = await sweepFloor(
-  'collection-id',                         // Collection to buy from
-  1.5,                                     // Maximum price in ETH
-  signer,                                  // Ethers.js signer
-  'your-api-key',                          // Reservoir API key
-  'https://api.reservoir.tools'            // API base URL
-);
+console.log(`Found ${opportunities.length} opportunities`);
 ```
+
+#### Auto-Sweep (Continuous Monitoring)
+
+```typescript
+import { autoSweep } from './nft/floorDetector';
+
+const stopAutoSweep = await autoSweep(
+  ['0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d'], // Collections to monitor
+  10, // 10% discount threshold
+  2, // Max 2 ETH per item
+  5, // Max 5 ETH total spend
+  wallet,
+  'your-reservoir-api-key',
+  'https://api.reservoir.tools',
+  {
+    checkIntervalMs: 120000, // Check every 2 minutes
+    includeRarity: true,
+    maxItemsPerSweep: 2,
+    minRarityPercentile: 30 // Only top 30% rarity
+  }
+);
+
+// Stop monitoring after 1 hour
+setTimeout(() => {
+  stopAutoSweep();
+}, 60 * 60 * 1000);
+```
+
+### Running the NFT Floor Sweeper
+
+1. Configure your environment variables in `.env` (see `src/nft/.env.example` for required variables)
+
+2. Run the sweeper in monitoring mode:
+```bash
+./src/nft/run-sweeper.sh
+```
+
+3. Run the sweeper in auto-sweep mode (will automatically purchase NFTs):
+```bash
+./src/nft/run-sweeper.sh --auto
+```
+
+For more detailed documentation, see [src/nft/README.md](src/nft/README.md).
 
 ### Requirements
 
-- Reservoir Protocol API key
+- Reservoir Protocol API key (get one at [reservoir.tools](https://reservoir.tools/))
 - Ethereum wallet with sufficient funds (for sweeping)
-- `axios` for API requests
-- `ethers` for transaction signing
+- Etherscan API key for gas optimization (optional)
+- Node.js version 22 or higher
