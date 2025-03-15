@@ -18,11 +18,20 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@reservoir0x/reservoir-sdk": "^1.0.0",
-    "axios": "^1.6.0",
-    "ethers": "^5.7.2"
+    "@reservoir0x/reservoir-sdk": "^1.12.19",
+    "axios": "^1.8.3",
+    "ethers": "^5.8.0"
   },
   "peerDependencies": {
     "@elizaos/core": "^1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@elizaos/core": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.24",
+    "typescript": "^5.8.2"
   }
-} 
+}

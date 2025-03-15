@@ -519,10 +519,10 @@ export async function sweepFloor(
             collection: collectionId,
             token: tokenId,
             quantity: 1,
-            exactOrderIds: [listing.id]
+            orderId: listing.id
           }],
           options: {
-            currencyType: 'ETH'
+            currency: 'ETH'
           },
           onProgress: (steps) => {
             console.log(`Progress: ${steps.length} steps completed`);
