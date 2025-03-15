@@ -264,7 +264,8 @@ export async function detectThinFloors(
     maxRequestsPerSecond?: number;
     minDiscount?: number;
     maxResults?: number;
-  } = {}
+  } = {},
+  runtime?: any
 ): Promise<NotificationPayload[]> {
   // Set default options
   const {
@@ -409,7 +410,8 @@ export async function sweepFloor(
     gasMultiplier?: number;
     maxGasPrice?: number;
     priorityFee?: number;
-  } = {}
+  } = {},
+  runtime?: any
 ): Promise<string[]> {
   // Set default options
   const {
@@ -481,7 +483,7 @@ export async function sweepFloor(
     }
     
     // Get gas prices
-    const etherscanApiKey = getConfig().etherscanApiKey;
+    const etherscanApiKey = getConfig(runtime).etherscanApiKey;
     let gasPrices = null;
     
     if (etherscanApiKey) {
@@ -608,7 +610,8 @@ export async function autoSweep(
     includeRarity?: boolean;
     maxItemsPerSweep?: number;
     minRarityPercentile?: number;
-  } = {}
+  } = {},
+  runtime?: any
 ): Promise<() => void> {
   // Set default options
   const {
@@ -638,7 +641,8 @@ export async function autoSweep(
           includeRarity,
           maxResults: maxItemsPerSweep * 2, // Get more results than we need to filter by rarity
           minDiscount: discountThreshold
-        }
+        },
+        runtime
       );
       
       // Filter by rarity if enabled
@@ -701,7 +705,8 @@ export async function autoSweep(
             apiBase,
             {
               maxItems: 1 // Buy one at a time
-            }
+            },
+            runtime
           );
           
           if (txHashes.length > 0) {
@@ -727,7 +732,8 @@ export async function autoSweep(
             apiBase,
             {
               maxItems: 1 // Buy one at a time
-            }
+            },
+            runtime
           );
           
           if (txHashes.length > 0) {

@@ -17,7 +17,7 @@ export interface NFTPluginConfig {
   defaultPriorityFee: number;
 }
 
-// Default configuration
+// Default configuration without runtime
 export const defaultConfig: NFTPluginConfig = {
   reservoirApiKey: process.env.RESERVOIR_API_KEY || '',
   etherscanApiKey: process.env.ETHERSCAN_API_KEY,
@@ -30,8 +30,25 @@ export const defaultConfig: NFTPluginConfig = {
   defaultPriorityFee: 1.5 // 1.5 gwei
 };
 
-// Get configuration with overrides
-export function getConfig(overrides: Partial<NFTPluginConfig> = {}): NFTPluginConfig {
+// Get configuration with runtime and overrides
+export function getConfig(runtime?: any, overrides: Partial<NFTPluginConfig> = {}): NFTPluginConfig {
+  // If runtime is provided, use getSetting to get values
+  if (runtime) {
+    return {
+      reservoirApiKey: runtime.getSetting("RESERVOIR_API_KEY") || process.env.RESERVOIR_API_KEY || '',
+      etherscanApiKey: runtime.getSetting("ETHERSCAN_API_KEY") || process.env.ETHERSCAN_API_KEY,
+      rpcUrl: runtime.getSetting("RPC_URL") || process.env.RPC_URL,
+      defaultApiBase: runtime.getSetting("DEFAULT_API_BASE") || 'https://api.reservoir.tools',
+      defaultMaxRequestsPerSecond: runtime.getSetting("DEFAULT_MAX_REQUESTS_PER_SECOND") || 5,
+      defaultCheckIntervalMs: runtime.getSetting("DEFAULT_CHECK_INTERVAL_MS") || 60000,
+      defaultGasMultiplier: runtime.getSetting("DEFAULT_GAS_MULTIPLIER") || 1.1,
+      defaultMaxGasPrice: runtime.getSetting("DEFAULT_MAX_GAS_PRICE") || 50,
+      defaultPriorityFee: runtime.getSetting("DEFAULT_PRIORITY_FEE") || 1.5,
+      ...overrides
+    };
+  }
+  
+  // If no runtime, use default config with overrides
   return {
     ...defaultConfig,
     ...overrides

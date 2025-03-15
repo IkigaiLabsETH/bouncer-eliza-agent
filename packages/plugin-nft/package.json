@@ -33,5 +33,22 @@
   "devDependencies": {
     "@types/node": "^20.17.24",
     "typescript": "^5.8.2"
+  },
+  "agentConfig": {
+    "pluginType": "elizaos:plugin:1.0.0",
+    "pluginParameters": {
+      "RESERVOIR_API_KEY": {
+        "type": "string",
+        "description": "API key for Reservoir NFT data"
+      },
+      "ETHERSCAN_API_KEY": {
+        "type": "string",
+        "description": "API key for Etherscan gas price data (optional)"
+      },
+      "RPC_URL": {
+        "type": "string",
+        "description": "Ethereum RPC URL for blockchain interactions (optional)"
+      }
+    }
   }
 }
