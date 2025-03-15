@@ -1,0 +1,28 @@
+{
+  "name": "@elizaos/plugin-nft",
+  "version": "1.0.0",
+  "description": "NFT Floor Price Detection and Sweeping Plugin for ElizaOS",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "elizaos",
+    "plugin",
+    "nft",
+    "floor-price",
+    "sweeping"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@reservoir0x/reservoir-sdk": "^1.0.0",
+    "axios": "^1.6.0",
+    "ethers": "^5.7.2"
+  },
+  "peerDependencies": {
+    "@elizaos/core": "^1.0.0"
+  }
+} 
